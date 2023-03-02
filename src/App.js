@@ -1,23 +1,35 @@
-import logo from './logo.svg';
 import './App.css';
+import Countries from './countries.json';
+import Navbar from './components/Navbar';
+import { useState } from 'react';
+import CountriesList from './components/CountriesList';
+import { Routes, Route } from 'react-router-dom';
+import CountryDetails from './components/CountryDetails';
+
+/**
+ *
+ *FAIRE LE STYLING EN SE BASANT SUR LE EXAMPLE.HTML
+ *
+ */
 
 function App() {
+  const [countries, setCountry] = useState(Countries);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar></Navbar>
+      <div className="container">
+        <div className="row">
+          {countries.map((country) => {
+            return <CountriesList {...country}></CountriesList>;
+          })}
+          <Routes>
+            <Route
+              path=":code"
+              element={<CountryDetails countries={countries} />}
+            />
+          </Routes>
+        </div>
+      </div>
     </div>
   );
 }
