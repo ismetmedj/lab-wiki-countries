@@ -8,13 +8,19 @@ const CountryDetails = (props) => {
   const { code } = useParams();
   // console.log(code);
 
-  const countryFound = props.countries.find(
-    (element) => element.alpha3Code === code
-  );
+  const countryFound = findCountry(code);
   // console.log(countryFound.name.common);
+
+  function findCountry(alpha3) {
+    return props.countries.find((element) => element.alpha3Code === alpha3);
+  }
 
   return (
     <div className="col-7">
+      <img
+        src={`https://flagpedia.net/data/flags/icon/72x54/${countryFound.alpha2Code.toLowerCase()}.png`}
+        alt="flag"
+      />
       <h1>{countryFound.name.common}</h1>
       <table className="table">
         <thead></thead>
@@ -35,10 +41,12 @@ const CountryDetails = (props) => {
             <td>
               <ul>
                 {countryFound.borders.map((border) => {
+                  const borderCountry = findCountry(border);
+                  // console.log(borderCountry);
                   return (
                     <li>
-                      <Link to={border}>{border}</Link>
-                      {console.log({ border })}
+                      <Link to={`/${border}`}>{borderCountry.name.common}</Link>
+                      {/* {console.log({ border })} */}
                     </li>
                   );
                 })}
